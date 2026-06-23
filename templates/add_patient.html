@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Add Patient{% endblock %}
+{% block page_header %}Register New Patient{% endblock %}
+
+{% block content %}
+<div class="form-card glass-panel mx-auto" style="max-width: 600px;">
+    <div class="card-header">
+        <h2>Patient Information</h2>
+        <p class="text-muted">Enter the details below to register a new patient.</p>
+    </div>
+    
+    <form action="{{ url_for('add_patient') }}" method="POST" class="standard-form">
+        <div class="form-group">
+            <label for="full_name">Full Name <span class="required">*</span></label>
+            <input type="text" id="full_name" name="full_name" required placeholder="e.g. Kamau Njoroge">
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group half-width">
+                <label for="dob">Date of Birth <span class="required">*</span></label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+            
+            <div class="form-group half-width">
+                <label for="gender">Gender <span class="required">*</span></label>
+                <select id="gender" name="gender" required>
+                    <option value="" disabled selected>Select gender...</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="contact">Contact Number <span class="required">*</span></label>
+            <input type="tel" id="contact" name="contact" required placeholder="e.g. 0712345678">
+        </div>
+        
+        <div class="form-group">
+            <label for="address">Physical Address</label>
+            <textarea id="address" name="address" rows="3" placeholder="Enter patient's address..."></textarea>
+        </div>
+        
+        <div class="form-actions mt-4">
+            <a href="{{ url_for('patients') }}" class="btn btn-outline">Cancel</a>
+            <button type="submit" class="btn btn-primary"><i class="ph ph-check"></i> Register Patient</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

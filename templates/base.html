@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLINICOM | {% block title %}{% endblock %}</title>
+    <!-- Use Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Link to our vanilla CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Phosphor Icons for beautiful UI icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+    {% if current_user %}
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="brand-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <i class="ph-fill ph-heartbeat icon-large logo-icon" style="display: none;"></i>
+            <h2>CLINICOM</h2>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('dashboard') }}" class="nav-item">
+                <i class="ph ph-squares-four"></i> Dashboard
+            </a>
+            <a href="{{ url_for('patients') }}" class="nav-item">
+                <i class="ph ph-users"></i> Patients
+            </a>
+            <a href="{{ url_for('appointments') }}" class="nav-item">
+                <i class="ph ph-calendar-check"></i> Appointments
+            </a>
+            {% if current_user.role in ['Admin', 'Doctor'] %}
+            <a href="#" class="nav-item">
+                <i class="ph ph-file-text"></i> Medical Records
+            </a>
+            {% endif %}
+            {% if current_user.role == 'Admin' %}
+            <a href="{{ url_for('users') }}" class="nav-item">
+                <i class="ph ph-user-gear"></i> Manage Users
+            </a>
+            {% endif %}
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="avatar"><i class="ph ph-user"></i></div>
+                <div class="user-details">
+                    <span class="username">{{ current_user.username }}</span>
+                    <span class="role">{{ current_user.role }}</span>
+                </div>
+            </div>
+            <a href="{{ url_for('logout') }}" class="logout-btn"><i class="ph ph-sign-out"></i></a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Top Header / Flash Messages -->
+        <header class="top-header">
+            <h1>{% block page_header %}Dashboard{% endblock %}</h1>
+        </header>
+
+        <div class="flash-container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-alert flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <div class="content-wrapper">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    
+    {% else %}
+        <!-- For Login Page (No Sidebar) -->
+        {% block login_content %}{% endblock %}
+    {% endif %}
+
+</body>
+</html>

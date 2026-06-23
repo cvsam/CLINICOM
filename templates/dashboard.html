@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_header %}Dashboard Overview{% endblock %}
+
+{% block content %}
+<div class="stats-grid">
+    <div class="stat-card glass-panel">
+        <div class="stat-icon bg-primary">
+            <i class="ph ph-users"></i>
+        </div>
+        <div class="stat-details">
+            <h3>Total Patients</h3>
+            <p class="stat-number">{{ stats.total_patients }}</p>
+        </div>
+    </div>
+    
+    <div class="stat-card glass-panel">
+        <div class="stat-icon bg-secondary">
+            <i class="ph ph-calendar-check"></i>
+        </div>
+        <div class="stat-details">
+            <h3>Upcoming Appointments</h3>
+            <p class="stat-number">{{ stats.upcoming_appointments }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="table-card glass-panel mt-4">
+    <div class="card-header">
+        <h2>Recent Appointments</h2>
+        <a href="{{ url_for('appointments') }}" class="btn btn-outline btn-sm">View All</a>
+    </div>
+    
+    {% if appointments %}
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appt in appointments %}
+                <tr>
+                    <td>{{ appt.appointment_date }}</td>
+                    <td><div class="user-cell"><div class="avatar-sm"><i class="ph ph-user"></i></div> {{ appt.patient_name }}</div></td>
+                    <td>{{ appt.doctor_name }}</td>
+                    <td><span class="badge badge-{{ appt.status | lower }}">{{ appt.status }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="ph ph-calendar-blank"></i>
+        <p>No upcoming appointments found.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

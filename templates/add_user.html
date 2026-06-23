@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Add User{% endblock %}
+{% block page_header %}Register New System User{% endblock %}
+
+{% block content %}
+<div class="form-card glass-panel mx-auto" style="max-width: 500px;">
+    <div class="card-header">
+        <h2>User Account Details</h2>
+        <p class="text-muted">Create a new login for a Doctor or Receptionist.</p>
+    </div>
+    
+    <form action="{{ url_for('add_user') }}" method="POST" class="standard-form">
+        <div class="form-group">
+            <label for="username">Username <span class="required">*</span></label>
+            <div class="input-icon-wrapper">
+                <i class="ph ph-user"></i>
+                <input type="text" id="username" name="username" required placeholder="e.g. doctor_smith">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password <span class="required">*</span></label>
+            <div class="input-icon-wrapper">
+                <i class="ph ph-lock"></i>
+                <input type="password" id="password" name="password" required placeholder="Min 6 characters">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="role">Role <span class="required">*</span></label>
+            <select id="role" name="role" required>
+                <option value="" disabled selected>Select user role...</option>
+                <option value="Doctor">Doctor</option>
+                <option value="Receptionist">Receptionist</option>
+                <option value="Admin">Administrator</option>
+            </select>
+        </div>
+        
+        <div class="form-actions mt-4">
+            <a href="{{ url_for('users') }}" class="btn btn-outline">Cancel</a>
+            <button type="submit" class="btn btn-primary"><i class="ph ph-check"></i> Create User</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

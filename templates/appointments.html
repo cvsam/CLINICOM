@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Appointments{% endblock %}
+{% block page_header %}Upcoming Appointments{% endblock %}
+
+{% block content %}
+<div class="card glass-panel">
+    <div class="card-header flex-between">
+        <h2>Schedule</h2>
+        {% if current_user.role in ['Admin', 'Receptionist'] %}
+        <button class="btn btn-primary" onclick="alert('Booking is done via the Add Patient page in this demo.')"><i class="ph ph-calendar-plus"></i> Book Appointment</button>
+        {% endif %}
+    </div>
+    
+    {% if appointments %}
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Date & Time</th>
+                    <th>Patient Name</th>
+                    <th>Doctor</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appt in appointments %}
+                <tr>
+                    <td><strong>{{ appt.appointment_date }}</strong></td>
+                    <td>
+                        <div class="user-cell">
+                            <div class="avatar-sm"><i class="ph ph-user"></i></div> 
+                            {{ appt.patient_name }}
+                        </div>
+                    </td>
+                    <td>Dr. {{ appt.doctor_name }}</td>
+                    <td><span class="badge badge-{{ appt.status | lower }}">{{ appt.status }}</span></td>
+                    <td>
+                        <button class="btn-icon" title="View Details"><i class="ph ph-eye"></i></button>
+                        {% if current_user.role in ['Admin', 'Doctor'] %}
+                        <button class="btn-icon" title="Add Record"><i class="ph ph-file-plus"></i></button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="ph ph-calendar-blank"></i>
+        <p>No upcoming appointments found.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

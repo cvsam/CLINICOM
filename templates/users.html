@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Users{% endblock %}
+{% block page_header %}System Users{% endblock %}
+
+{% block content %}
+<div class="card glass-panel">
+    <div class="card-header flex-between">
+        <h2>Registered Users</h2>
+        <a href="{{ url_for('add_user') }}" class="btn btn-primary"><i class="ph ph-user-plus"></i> Add User</a>
+    </div>
+    
+    {% if users %}
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                <tr>
+                    <td class="text-muted">#{{ u.id }}</td>
+                    <td><strong>{{ u.username }}</strong></td>
+                    <td>
+                        <span class="badge badge-{% if u.role == 'Admin' %}completed{% elif u.role == 'Doctor' %}scheduled{% else %}cancelled{% endif %}">
+                            {{ u.role }}
+                        </span>
+                    </td>
+                    <td><span class="text-muted">Active</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="ph ph-users"></i>
+        <p>No users found.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

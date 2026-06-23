@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+{% block body_class %}login-page{% endblock %}
+
+{% block login_content %}
+<div class="login-container">
+    <div class="login-card glass-panel">
+        <div class="login-header">
+            <div class="logo-circle" style="background: none; box-shadow: none;">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="login-logo" style="width: 120px; height: 120px; border-radius: 20%; box-shadow: 0 8px 16px rgba(14, 165, 233, 0.2);" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="fallback-logo" style="display: none; width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto; box-shadow: 0 8px 16px rgba(14, 165, 233, 0.2);">
+                    <i class="ph-fill ph-heartbeat"></i>
+                </div>
+            </div>
+            <h2>Welcome to CLINICOM</h2>
+            <p>Please log in to continue</p>
+        </div>
+
+        <div class="flash-container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-alert flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <form action="{{ url_for('login') }}" method="POST" class="login-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <div class="input-icon-wrapper">
+                    <i class="ph ph-user"></i>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-icon-wrapper">
+                    <i class="ph ph-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
